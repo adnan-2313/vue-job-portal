@@ -1,10 +1,24 @@
 <script setup>
-import { defineProps } from "vue";
-defineProps({
+import { defineProps, ref, computed } from "vue";
+import { RouterLink } from "vue-router";
+const props = defineProps({
   job: Object,
 });
 
+const showFullDesc = ref(false);
 // console.log(job);
+const toggleFullDesc = () => {
+  showFullDesc.value = !showFullDesc.value;
+};
+
+const truncatedDesc = computed(() => {
+  let description = props.job.description;
+
+  if (!showFullDesc.value) {
+    description = description.substring(0, 90) + "...";
+  }
+  return description;
+});
 </script>
 
 <template>
@@ -16,7 +30,15 @@ defineProps({
       </div>
 
       <div class="mb-5">
-        {{ job.description }}
+        <div>
+          {{ truncatedDesc }}
+        </div>
+        <button
+          @click="toggleFullDesc"
+          class="text-zinc-500 hover:text-zinc-600 mb-5 cursor-pointer"
+        >
+          {{ showFullDesc ? "Less" : "More" }}
+        </button>
       </div>
 
       <h3 class="text-slate-100 mb-2">{{ job.salary }} / Year</h3>
@@ -28,12 +50,14 @@ defineProps({
           <i class="fa-solid fa-location-dot text-lg"></i>
           {{ job.location }}
         </div>
-        <a   Read More
-          href="job.html"
+        <RouterLink
+          Read
+          More
+          :to="'/jobs/' + job.id"
           class="h-[36px] bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg text-center text-sm"
         >
           Read More
-        </a>
+        </RouterLink>
       </div>
     </div>
   </div>
