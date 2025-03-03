@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 import JobCard from "@/components/JobCard.vue";
-import { defineProps } from "vue";
+
 import { RouterLink } from "vue-router";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import axios from "axios";
